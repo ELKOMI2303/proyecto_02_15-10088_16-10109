@@ -1,10 +1,10 @@
-# Proyecto Lab 01
+# Proyecto Lab 02
 
 **Curso:** CI5321 (2025)  
 **Puntuación Total:** 25 puntos  
 **Alumnos:** Felix Arnos y Jonathan Bautista  
 **Carnets:** 15-10088 y 16-10109  
-**Fecha:** 2025-02-16
+**Fecha:** 2025-03-16
 
 ## Sistema Operativo
 
@@ -94,30 +94,26 @@ El objetivo de este proyecto es desarrollar un programa de manera **individual**
 
 ## Evaluación
 
-1. **Vertex shader (10pt):**
+1. **Para cada efecto (7 pts cada uno, total 21 pts):**
 
-   - Funcionamiento, 1pt.
-   - Creatividad, 3pt.
-   - Parámetro, 3pt cada uno (máximo 6 pts).
+   - 1 pt Por parámetro (máximo 3 pts).
+   - 2 pts Funcionamiento correcto.
+   - 1 pt Complejidad.
+   - 1 pt Uso adecuado de vertex y fragment shaders.
 
-2. **Fragment shader (5pt):**
-   - Funcionamiento, 1pt.
-   - Parámetros Blinn-Phong, 1pt cada uno (máximo 4pts).
-
-3. **Creative shader (10pt):**
-   - Funcionamiento, 1pt.
-   - Creatividad, 3pt.
-   - Parámetro, 3pt cada uno (máximo 6 pts).
+2. **Para el sistema completo (4 pts):**
+   - 2 pts Optimización y eficiencia.
+   - 2 pt Organización del código y uso de estructuras reutilizables.
 
 ## Consideraciones
 
-- **Fecha tope de entrega:** Domingo 16 de Febrero de 2025, 11:59 pm.
-- **Formato del repositorio GitHub:** `proyecto_01_CARNET.git`
+- **Fecha tope de entrega:** Domingo 16 de Marzo de 2025, 11:59 pm.
+- **Formato del repositorio GitHub:** `proyecto_02_CARNET.git`
 - **Modalidad:** individual o en parejas.
 - **Envío por correo electrónico a:**
   - <10-87970@usb.ve>
   - Con copia a: <depci-invitado2@usb.ve>
-- **Asunto del correo:** `[ci5321] Proyecto Lab 01`
+- **Asunto del correo:** `[ci5321] Proyecto Lab 02`
 - **Contenido del correo:**
   - Saludo con los **nombres** y **carnets** del equipo.
   - Enlace al **repositorio GitHub**.
