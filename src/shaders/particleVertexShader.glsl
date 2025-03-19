@@ -44,18 +44,9 @@ float perlinNoise(vec2 p) {
     return mix(mix(a, b, u.x), mix(c, d, u.x), u.y);
 }
 
-
-
-
 void main(){
     vColor=customColor;
     vec3 pos=position;
-    
-    // vec2 gridIndex=vec2(mod(position.x,gridSize.x),mod(position.y,gridSize.y));// Índice de celda
-    // vec2 cellSize=1./gridSize;// Tamaño de cada celda
-    
-    // vGridIndex=gridIndex;// Pasamos el índice
-    // vCellSize=cellSize;// Pasamos el tamaño
     
     gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);
     
