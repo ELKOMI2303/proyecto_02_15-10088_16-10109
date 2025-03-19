@@ -20,7 +20,11 @@ document.addEventListener("DOMContentLoaded", () => {
             controlsPanel.style.display = "block";
             currentSelection.textContent = target.textContent;
   
-            loadApp(option);
+            if (option) {
+                loadApp(option);
+            } else {
+                console.error("Option is null");
+            }
         });
     });
   
@@ -42,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
         currentSelection.textContent = "";
     });
   
-    function loadApp(option: string) {
+    function loadApp(_option: string) {
         const container = document.getElementById("app-container") || document.createElement("div");
         container.id = "app-container";
         if (!document.body.contains(container)) {

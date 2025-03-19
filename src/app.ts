@@ -15,10 +15,10 @@ export class ParticleSystem {
     private scene: THREE.Scene;
     private camera: THREE.PerspectiveCamera;
     private renderer: THREE.WebGLRenderer;
-    private particleSystem: THREE.Points;
-    private particleMaterial: THREE.RawShaderMaterial;
+    private particleSystem!: THREE.Points;
+    private particleMaterial!: THREE.RawShaderMaterial;
     private startTime: number;
-    private gui: GUI;
+    private gui!: GUI;
     private params: { amplitud: number; frecuencia: number; fase: number; behavior: number, velocidad: number };
 
     // Inicialización de parámetros
@@ -117,16 +117,16 @@ export class ParticleSystem {
     private setupGUI(): void {
         if (this.gui) this.gui.destroy();
         this.gui = new GUI();
-        this.gui.add(this.params, 'amplitud', 0, 1).name('Amplitud').onChange((value) => this.particleMaterial.uniforms.amplitud.value = value);
-        this.gui.add(this.params, 'frecuencia', 0, 1).name('Frecuencia').onChange((value) => this.particleMaterial.uniforms.frecuencia.value = value);
-        this.gui.add(this.params, 'fase', 0, 1).name('Fase').onChange((value) => this.particleMaterial.uniforms.fase.value = value);
-        this.gui.add(this.params, 'velocidad', 0.1, 5.0).name('Velocidad').onChange((value) => this.particleMaterial.uniforms.velocidad.value = value);
-        this.gui.add(this.params, 'behavior', { Humo: 0, Gravedad: 1, Estelas: 2 }).name('Comportamiento').onChange((value) => this.particleMaterial.uniforms.behavior.value = value);
+        this.gui.add(this.params, 'amplitud', 0, 1).name('Amplitud').onChange((value: number) => this.particleMaterial.uniforms.amplitud.value = value);
+        this.gui.add(this.params, 'frecuencia', 0, 1).name('Frecuencia').onChange((value: number) => this.particleMaterial.uniforms.frecuencia.value = value);
+        this.gui.add(this.params, 'fase', 0, 1).name('Fase').onChange((value: number) => this.particleMaterial.uniforms.fase.value = value);
+        this.gui.add(this.params, 'velocidad', 0.1, 5.0).name('Velocidad').onChange((value: number) => this.particleMaterial.uniforms.velocidad.value = value);
+        this.gui.add(this.params, 'behavior', { Humo: 0, Gravedad: 1, Estelas: 2 }).name('Comportamiento').onChange((value: number) => this.particleMaterial.uniforms.behavior.value = value);
         this.gui.add(this.particleMaterial, 'blending', {
             Normal: THREE.NormalBlending,
             Additive: THREE.AdditiveBlending,
             Subtractive: THREE.SubtractiveBlending
-        }).name('Blending').onChange((value) => {
+        }).name('Blending').onChange((value: THREE.Blending) => {
             this.particleMaterial.blending = value;
         });      
     }
@@ -168,8 +168,3 @@ export class ParticleSystem {
         this.camera.position.z += event.deltaY * 0.01;
     }
 }
-
-// // Main entry point
-// document.addEventListener('DOMContentLoaded', () => {
-//     const app = new ParticleSystem();
-// });
