@@ -33,7 +33,14 @@ export class ParticleSystem {
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.renderer.setAnimationLoop(() => this.animate());
         this.renderer.setPixelRatio(window.devicePixelRatio);
-        document.body.appendChild(this.renderer.domElement);
+
+         
+        const container = document.getElementById('app-container');
+        if (container) {
+            container.appendChild(this.renderer.domElement);
+        } else {
+            document.body.appendChild(this.renderer.domElement);
+        }
 
         this.startTime = Date.now();
         this.params = { amplitud: 0.5, frecuencia: 1.0, fase: 1.5, behavior: 0, velocidad: 1.0 };
@@ -141,7 +148,8 @@ export class ParticleSystem {
 
     private onKeyDown(event: KeyboardEvent): void {
         if (event.key === 'Escape') {
-            document.body.innerHTML = '';
+            const container = document.getElementById('app-container');
+            if (container) container.innerHTML = ''; 
             this.gui.destroy();
             window.location.reload();
         } else if (event.key === '1') {
