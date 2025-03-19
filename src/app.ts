@@ -152,16 +152,18 @@ export class ParticleSystem {
             if (container) container.innerHTML = ''; 
             this.gui.destroy();
             window.location.reload();
-        } else if (event.key === '1') {
-            this.params.behavior = 0;
-            this.particleMaterial.uniforms.behavior.value = 0;
-        } else if (event.key === '2') {
-            this.params.behavior = 1;
-            this.particleMaterial.uniforms.behavior.value = 1;
-        } else if (event.key === '3') {
-            this.params.behavior = 2;
-            this.particleMaterial.uniforms.behavior.value = 2;
         }
+        // } else if (event.key === '1') {
+        //     this.params.behavior = 0;
+        //     this.particleMaterial.uniforms.behavior.value = 0;
+
+        // } else if (event.key === '2') {
+        //     this.params.behavior = 1;
+        //     this.particleMaterial.uniforms.behavior.value = 1;
+        // } else if (event.key === '3') {
+        //     this.params.behavior = 2;
+        //     this.particleMaterial.uniforms.behavior.value = 2;
+        // }
     }
 
     private onZoom(event: WheelEvent): void {
