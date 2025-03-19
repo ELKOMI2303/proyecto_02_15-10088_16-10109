@@ -111,7 +111,7 @@ export class ParticleSystem {
             },
             glslVersion: THREE.GLSL3,
             transparent: true,
-            blending: THREE.AdditiveBlending, // Activa el blending aditivo
+            blending: THREE.NormalBlending, // Activa el blending aditivo
         });
         
         
