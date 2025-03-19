@@ -33,6 +33,7 @@ export class ParticleSystem {
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.renderer.setAnimationLoop(() => this.animate());
         this.renderer.setPixelRatio(window.devicePixelRatio);
+        // this.renderer.setClearColor(new THREE.Color(0.5, 0.5, 0.5)); // Fondo gris claro
 
          
         const container = document.getElementById('app-container');
@@ -45,6 +46,12 @@ export class ParticleSystem {
         this.startTime = Date.now();
         this.params = { amplitud: 0.5, frecuencia: 1.0, fase: 1.5, behavior: 0, velocidad: 1.0 };
 
+        if (this.params.behavior === 0) {
+            this.renderer.setClearColor(new THREE.Color(0.5, 0.5, 0.5)); // Fondo gris
+        } else {
+            this.renderer.setClearColor(new THREE.Color(0, 0, 0)); // Fondo negro
+        }
+        
         window.addEventListener('resize', () => this.onResize());
         window.addEventListener('keydown', (event) => this.onKeyDown(event));
         window.addEventListener('wheel', (event) => this.onZoom(event));
@@ -99,7 +106,6 @@ export class ParticleSystem {
                 behavior: { value: this.params.behavior },
                 velocidad: { value: this.params.velocidad },
                 texturejpg: { value: particleTexture }, // Uniforme para la textura
-                // gridSize: { value: new THREE.Vector2(1.0, 1.0) }, // Define el grid (e.g., 4x4)
                 modelViewMatrix: { value: new THREE.Matrix4() },
                 projectionMatrix: { value: new THREE.Matrix4() }
             },
@@ -120,15 +126,25 @@ export class ParticleSystem {
         this.gui.add(this.params, 'amplitud', 0, 1).name('Amplitud').onChange((value: number) => this.particleMaterial.uniforms.amplitud.value = value);
         this.gui.add(this.params, 'frecuencia', 0, 1).name('Frecuencia').onChange((value: number) => this.particleMaterial.uniforms.frecuencia.value = value);
         this.gui.add(this.params, 'fase', 0, 1).name('Fase').onChange((value: number) => this.particleMaterial.uniforms.fase.value = value);
-        this.gui.add(this.params, 'velocidad', 0.1, 5.0).name('Velocidad').onChange((value: number) => this.particleMaterial.uniforms.velocidad.value = value);
-        this.gui.add(this.params, 'behavior', { Humo: 0, Gravedad: 1, Estelas: 2 }).name('Comportamiento').onChange((value: number) => this.particleMaterial.uniforms.behavior.value = value);
+        this.gui.add(this.params, 'velocidad', 0.1, 10.0).name('Velocidad').onChange((value: number) => this.particleMaterial.uniforms.velocidad.value = value);
+        this.gui.add(this.params, 'behavior', { Humo: 0, Gravedad: 1, Estelas: 2 }).name('Comportamiento').onChange((value: number) => {
+            this.particleMaterial.uniforms.behavior.value = value
+
+            // Cambia el color del fondo según el comportamiento
+            if (value === 0) {
+                this.renderer.setClearColor(new THREE.Color(0.5, 0.5, 0.5)); // Fondo gris para "Humo"
+            } else {
+                this.renderer.setClearColor(new THREE.Color(0, 0, 0)); // Fondo negro para "Gravedad" y "Estelas"
+            }
+        });
         this.gui.add(this.particleMaterial, 'blending', {
             Normal: THREE.NormalBlending,
             Additive: THREE.AdditiveBlending,
             Subtractive: THREE.SubtractiveBlending
         }).name('Blending').onChange((value: THREE.Blending) => {
             this.particleMaterial.blending = value;
-        });      
+            this.particleMaterial.needsUpdate = true; // Asegura que los cambios se reflejen
+        });   
     }
     
 
