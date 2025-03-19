@@ -5,7 +5,7 @@ import particleFragmentShader from './shaders/particleFragmentShader.glsl';
 
 const textureLoader = new THREE.TextureLoader();
 const particleTexture = textureLoader.load(
-    '../public/humo.png',
+    './textures/humo.png',
     () => console.log('Textura cargada correctamente'),
     undefined,
     (error) => console.error('Error al cargar la textura:', error)
