@@ -3,6 +3,14 @@ import GUI from 'lil-gui';
 import particleVertexShader from './shaders/particleVertexShader.glsl';
 import particleFragmentShader from './shaders/particleFragmentShader.glsl';
 
+const textureLoader = new THREE.TextureLoader();
+const particleTexture = textureLoader.load(
+    '../public/humo.png',
+    () => console.log('Textura cargada correctamente'),
+    undefined,
+    (error) => console.error('Error al cargar la textura:', error)
+);
+
 export class ParticleSystem {
     private scene: THREE.Scene;
     private camera: THREE.PerspectiveCamera;
@@ -11,7 +19,7 @@ export class ParticleSystem {
     private particleMaterial: THREE.RawShaderMaterial;
     private startTime: number;
     private gui: GUI;
-    private params: { amplitud: number; frecuencia: number; fase: number; behavior: number };
+    private params: { amplitud: number; frecuencia: number; fase: number; behavior: number, velocidad: number };
 
     // Inicialización de parámetros
    
@@ -28,7 +36,7 @@ export class ParticleSystem {
         document.body.appendChild(this.renderer.domElement);
 
         this.startTime = Date.now();
-        this.params = { amplitud: 0.5, frecuencia: 1.0, fase: 1.5, behavior: 0 };
+        this.params = { amplitud: 0.5, frecuencia: 1.0, fase: 1.5, behavior: 0, velocidad: 1.0 };
 
         window.addEventListener('resize', () => this.onResize());
         window.addEventListener('keydown', (event) => this.onKeyDown(event));
@@ -82,11 +90,15 @@ export class ParticleSystem {
                 frecuencia: { value: this.params.frecuencia },
                 fase: { value: this.params.fase },
                 behavior: { value: this.params.behavior },
+                velocidad: { value: this.params.velocidad },
+                texturejpg: { value: particleTexture }, // Uniforme para la textura
+                // gridSize: { value: new THREE.Vector2(1.0, 1.0) }, // Define el grid (e.g., 4x4)
                 modelViewMatrix: { value: new THREE.Matrix4() },
                 projectionMatrix: { value: new THREE.Matrix4() }
             },
             glslVersion: THREE.GLSL3,
-            transparent: true
+            transparent: true,
+            blending: THREE.AdditiveBlending, // Activa el blending aditivo
         });
         
         
@@ -101,7 +113,15 @@ export class ParticleSystem {
         this.gui.add(this.params, 'amplitud', 0, 1).name('Amplitud').onChange((value) => this.particleMaterial.uniforms.amplitud.value = value);
         this.gui.add(this.params, 'frecuencia', 0, 1).name('Frecuencia').onChange((value) => this.particleMaterial.uniforms.frecuencia.value = value);
         this.gui.add(this.params, 'fase', 0, 1).name('Fase').onChange((value) => this.particleMaterial.uniforms.fase.value = value);
+        this.gui.add(this.params, 'velocidad', 0.1, 5.0).name('Velocidad').onChange((value) => this.particleMaterial.uniforms.velocidad.value = value);
         this.gui.add(this.params, 'behavior', { Humo: 0, Gravedad: 1, Estelas: 2 }).name('Comportamiento').onChange((value) => this.particleMaterial.uniforms.behavior.value = value);
+        this.gui.add(this.particleMaterial, 'blending', {
+            Normal: THREE.NormalBlending,
+            Additive: THREE.AdditiveBlending,
+            Subtractive: THREE.SubtractiveBlending
+        }).name('Blending').onChange((value) => {
+            this.particleMaterial.blending = value;
+        });      
     }
     
 
@@ -112,9 +132,6 @@ export class ParticleSystem {
         this.particleMaterial.uniforms.projectionMatrix.value = this.camera.projectionMatrix;
         this.renderer.render(this.scene, this.camera);
     }
-    
-    
-    
 
     private onResize(): void {
         this.camera.aspect = window.innerWidth / window.innerHeight;
@@ -144,7 +161,7 @@ export class ParticleSystem {
     }
 }
 
-// Main entry point
-document.addEventListener('DOMContentLoaded', () => {
-    const app = new ParticleSystem();
-});
+// // Main entry point
+// document.addEventListener('DOMContentLoaded', () => {
+//     const app = new ParticleSystem();
+// });
