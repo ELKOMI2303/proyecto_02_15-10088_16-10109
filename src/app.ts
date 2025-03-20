@@ -148,13 +148,25 @@ export class ParticleSystem {
     }
     
 
+    private lastFrameTime = 0;
+    private frameInterval = 1000 / 30; // 30 FPS
+    
     private animate(): void {
-        const delta = (Date.now() - this.startTime) / 1000;
-        this.particleMaterial.uniforms.time.value = delta;
-        this.particleMaterial.uniforms.modelViewMatrix.value = this.camera.matrixWorldInverse;
-        this.particleMaterial.uniforms.projectionMatrix.value = this.camera.projectionMatrix;
-        this.renderer.render(this.scene, this.camera);
+        const currentTime = Date.now();
+        const deltaTime = currentTime - this.lastFrameTime;
+    
+        if (deltaTime >= this.frameInterval) {
+            this.lastFrameTime = currentTime;
+    
+            const delta = (currentTime - this.startTime) / 1000;
+            this.particleMaterial.uniforms.time.value = delta;
+            this.particleMaterial.uniforms.modelViewMatrix.value = this.camera.matrixWorldInverse;
+            this.particleMaterial.uniforms.projectionMatrix.value = this.camera.projectionMatrix;
+    
+            this.renderer.render(this.scene, this.camera);
+        }
     }
+    
 
     private onResize(): void {
         this.camera.aspect = window.innerWidth / window.innerHeight;
