@@ -149,7 +149,7 @@ export class ParticleSystem {
     
 
     private lastFrameTime = 0;
-    private frameInterval = 1000 / 30; // 30 FPS
+    private frameInterval = 1000 / 60; // 60 FPS
     
     private animate(): void {
         const currentTime = Date.now();
